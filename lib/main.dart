@@ -1,4 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/01state.dart';
+import 'package:myapp/pages/02statemanage.dart';
+import 'package:myapp/pages/03statemanage.dart';
+import 'package:myapp/pages/04statemanage.dart';
+import 'package:myapp/pages/05cupertino.dart';
+
+import 'package:english_words/english_words.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -6,7 +15,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return 
+    MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -23,12 +33,37 @@ class MyApp extends StatelessWidget {
       //注册路由表
       routes:{
         'new_page':(context)=>NewRoute(),
-        'new_page_arg':(context)=>NewRouteArg()
+        'new_page_arg':(context)=>NewRouteArg(),
+        'StatefulWidgetLifeCycle':(context)=>NewRoute_state(),
+        'StateManage1':(context)=>NewRouteStateManage(),
+        'StateManage2':(context)=>NewRouteStateManageParent(),
+        'StateManage3':(context)=>NewRouteStateManagefix(),
+        'CupertinoDemo':(context)=>CupertinoDemo(),
+        'WebView':(context)=>new WebviewScaffold(
+          url: "https://m.tjresearch.cn",
+          appBar: new AppBar(
+            title: new Text("腾景经济预测"),
+          ),
+        ),
       },
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      //基线网格调试
+      // debugShowMaterialGrid: true,
+      //应用程序性能图
+      // showPerformanceOverlay: true,
+      
+      home: MyHomePage(title: 'Flutter Demo Hme Page'),
     );
   }
 }
+// "https://m.tjresearch.cn",
+// routes: {
+//         "/": (_) => new WebviewScaffold(
+//           url: "https://www.google.com",
+//           appBar: new AppBar(
+//             title: new Text("Widget webview"),
+//           ),
+//         ),
+//       },
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -131,7 +166,38 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: (){
                 Navigator.of(context).pushNamed("new_page_arg",arguments: 'hi');
               },
-            )
+            ),
+            FlatButton(
+              child: Text('StatefulWidgetLifeCycle'),
+              onPressed: (){
+                Navigator.of(context).pushNamed('StatefulWidgetLifeCycle');
+              },
+            ),
+            FlatButton(
+              child: Text('StateManage1-自管理'),
+              onPressed: (){
+                Navigator.of(context).pushNamed('StateManage1');
+              },
+            ),
+            FlatButton(
+              child: Text('StateManage2-父级管理'),
+              onPressed: (){
+                Navigator.of(context).pushNamed('StateManage2');
+              },
+            ),
+            FlatButton(
+              child: Text('IOS风格demo'),
+              onPressed: (){
+                Navigator.of(context).pushNamed('CupertinoDemo');
+              },
+            ),
+            FlatButton(
+              child: Text('WebView'),
+              onPressed: (){
+                Navigator.of(context).pushNamed('WebView');
+              },
+            ),
+            RandomWordsWidget(),
           ],
         ),
       ),
@@ -167,6 +233,54 @@ class NewRouteArg extends StatelessWidget{
         title:Text('New route'),
       ),
       body:Center(child: Text('This is new route with $args'),)
+    );
+  }
+}
+//路由 - 跳转到 'state'生命周期页
+class NewRoute_state extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return CounterWidget();
+    // return Text("aaa");
+  }
+}
+//路由 - 状态管理页1
+class NewRouteStateManage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return TapboxA();
+  }
+}
+//路由 - 状态管理页2 父级管理状态
+class NewRouteStateManageParent extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return ParentWidget();
+  }
+}
+//路由 - 状态管理页2 混合管理状态
+class NewRouteStateManagefix extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return ParentWidgetC();
+  }
+}
+//路由 - 状态管理页2 混合管理状态
+class CupertinoDemo extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    return CupertinoTestRoute();
+  }
+}
+
+class RandomWordsWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+   // 生成随机字符串
+    final wordPair = new WordPair.random();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Text(wordPair.toString()),
     );
   }
 }
